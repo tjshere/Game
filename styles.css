@@ -1,0 +1,26 @@
+* { box-sizing: border-box; margin: 0; }
+body { background: #141a14; color: #e8e4d8; font-family: "Courier New", monospace; display: flex; justify-content: center; padding: 16px; }
+#game { display: flex; gap: 12px; flex-wrap: wrap; }
+#canvas { image-rendering: pixelated; border: 3px solid #3a3325; background: #000; max-width: 100%; }
+#hud { width: 260px; display: flex; flex-direction: column; gap: 10px; }
+#hp-wrap { display: flex; align-items: center; gap: 8px; }
+#hp-bar { flex: 1; height: 18px; background: #401515; border: 2px solid #3a3325; }
+#hp-fill { height: 100%; background: #2e8b2e; width: 100%; transition: width .15s; }
+#combat-info { min-height: 18px; font-size: 13px; color: #d8b25a; }
+#class-panel { display: flex; gap: 6px; flex-wrap: wrap; }
+#class-panel button { flex: 1; padding: 6px 4px; background: #241f14; color: #e8e4d8; border: 2px solid #3a3325; cursor: pointer; font-family: inherit; }
+#class-panel button.active { border-color: #d8b25a; color: #d8b25a; }
+#stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 13px; }
+.stat .bar { height: 4px; background: #333; margin-top: 2px; }
+.stat .bar i { display: block; height: 100%; background: #d8b25a; }
+#inventory { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+#inventory .slot { aspect-ratio: 1; background: #241f14; border: 2px solid #3a3325; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
+#inventory .slot canvas { width: 80%; height: 80%; image-rendering: pixelated; }
+#reset-save { background: #401515; color: #e8e4d8; border: 2px solid #3a3325; padding: 6px; cursor: pointer; font-family: inherit; }
+#modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.7); display: flex; align-items: center; justify-content: center; }
+#modal { background: #241f14; border: 3px solid #d8b25a; padding: 24px; max-width: 420px; text-align: center; }
+#modal button { margin: 8px 4px 0; padding: 8px 14px; background: #141a14; color: #e8e4d8; border: 2px solid #3a3325; cursor: pointer; font-family: inherit; }
+#toasts { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 6px; }
+.toast { background: #241f14; border: 2px solid #3a3325; padding: 6px 12px; font-size: 13px; animation: toast-fade 3s forwards; }
+.rarity-gray { color: #9aa0a6; } .rarity-blue { color: #4f9dde; } .rarity-orange { color: #f39c2b; }
+@keyframes toast-fade { 0%,80% { opacity: 1; } 100% { opacity: 0; } }

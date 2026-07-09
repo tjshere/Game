@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game (working title)</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="game">
+    <canvas id="canvas" width="800" height="608"></canvas>
+    <aside id="hud">
+        <div id="hp-wrap"><div id="hp-bar"><div id="hp-fill"></div></div><span id="hp-text"></span></div>
+        <div id="combat-info"></div>
+        <div id="class-panel"></div>
+        <div id="stats"></div>
+        <div id="coins-row">Coins: <span id="coins">0</span></div>
+        <div id="inventory"></div>
+        <button id="reset-save" type="button">Reset save</button>
+    </aside>
+</div>
+<div id="modal-backdrop" hidden><div id="modal"></div></div>
+<div id="toasts"></div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
