@@ -2,8 +2,9 @@ import { MAP_TEXT, parseMap, PLAYER_SPAWN, CLASS_STONE, MONSTER_SPAWNS, isBlocke
 import { findPath, findPathAdjacent } from "./pathfinding.js";
 import { createPlayer, createMonster, maxHp } from "./entities.js";
 import { createRenderer } from "./render.js";
-import { save, load } from "./save.js";
+import { save, load, SAVE_KEY } from "./save.js";
 import { attachCombat } from "./engage.js";
+import { initUi } from "./ui.js";
 
 export const TICK_MS = 600;
 const map = parseMap(MAP_TEXT);
@@ -37,13 +38,10 @@ export const game = {
     hooks: { onTick: [], onClickMonster: null, onReachStone: null }, // Task 10/11 attach here
 };
 
-attachCombat(game, map, {
-    onLoot: (drops, name) => console.log("loot from", name, drops),
-    onXp: () => {},
-    onPlayerDeath: () => console.log("you died"),
-    onBossKill: () => console.log("BOSS DOWN"),
-    onLevelUp: (stat, level) => console.log("level up", stat, level),
+const uiCallbacks = initUi(game, {
+    onReset: () => { localStorage.removeItem(SAVE_KEY); location.reload(); },
 });
+attachCombat(game, map, uiCallbacks);
 
 const canvas = document.getElementById("canvas");
 const renderer = createRenderer(canvas, map);
