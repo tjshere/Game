@@ -18,6 +18,7 @@ body { background: #141a14; color: #e8e4d8; font-family: "Courier New", monospac
 #inventory .slot canvas { width: 80%; height: 80%; image-rendering: pixelated; }
 #reset-save { background: #401515; color: #e8e4d8; border: 2px solid #3a3325; padding: 6px; cursor: pointer; font-family: inherit; }
 #modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.7); display: flex; align-items: center; justify-content: center; }
+#modal-backdrop[hidden] { display: none; }
 #modal { background: #241f14; border: 3px solid #d8b25a; padding: 24px; max-width: 420px; text-align: center; }
 #modal button { margin: 8px 4px 0; padding: 8px 14px; background: #141a14; color: #e8e4d8; border: 2px solid #3a3325; cursor: pointer; font-family: inherit; }
 #toasts { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 6px; }
