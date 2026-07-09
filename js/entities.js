@@ -26,9 +26,9 @@ export const FOODS = {
 };
 
 export const MONSTERS = {
-    mireRat:     { name: "Mire Rat",     hp: 10,  level: 2,  power: 1,  defence: 1,  weakTo: "melee", respawnTicks: 10,  aggroRadius: 0, sprite: "mireRat" },
+    mireRat:     { name: "Mire Rat",     hp: 5,   level: 2,  power: 1,  defence: 1,  weakTo: "melee", respawnTicks: 10,  aggroRadius: 0, sprite: "mireRat" },
     bogling:     { name: "Bogling",      hp: 25,  level: 8,  power: 3,  defence: 5,  weakTo: "magic", respawnTicks: 15,  aggroRadius: 0, sprite: "bogling" },
-    ashenWarden: { name: "Ashen Warden", hp: 150, level: 40, power: 10, defence: 15, weakTo: null,    respawnTicks: 100, aggroRadius: 4, sprite: "ashenWarden" },
+    ashenWarden: { name: "Ashen Warden", hp: 130, level: 30, power: 6,  defence: 15, weakTo: null,    respawnTicks: 100, aggroRadius: 4, sprite: "ashenWarden" },
 };
 
 export function createPlayer() {
