@@ -3,6 +3,7 @@ import { findPath, findPathAdjacent } from "./pathfinding.js";
 import { createPlayer, createMonster, maxHp } from "./entities.js";
 import { createRenderer } from "./render.js";
 import { save, load } from "./save.js";
+import { attachCombat } from "./engage.js";
 
 export const TICK_MS = 600;
 const map = parseMap(MAP_TEXT);
@@ -35,6 +36,14 @@ export const game = {
     attackCooldown: 0,
     hooks: { onTick: [], onClickMonster: null, onReachStone: null }, // Task 10/11 attach here
 };
+
+attachCombat(game, map, {
+    onLoot: (drops, name) => console.log("loot from", name, drops),
+    onXp: () => {},
+    onPlayerDeath: () => console.log("you died"),
+    onBossKill: () => console.log("BOSS DOWN"),
+    onLevelUp: (stat, level) => console.log("level up", stat, level),
+});
 
 const canvas = document.getElementById("canvas");
 const renderer = createRenderer(canvas, map);
