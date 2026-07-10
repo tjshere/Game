@@ -1,4 +1,4 @@
-import { drawSprite } from "./sprites.js";
+import { drawSprite } from "./sprites-hd.js";
 import { tileSprite } from "./world.js";
 import { MONSTERS, CLASSES, FOODS, WEAPONS } from "./entities.js";
 

@@ -1,6 +1,6 @@
 import { CLASSES, WEAPONS, FOODS, bestWeapon, statLevel, maxHp } from "./entities.js";
 import { progress } from "./xp.js";
-import { drawSprite } from "./sprites.js";
+import { drawSprite } from "./sprites-hd.js";
 
 const STATS = ["melee", "ranged", "magic", "defence", "hitpoints"];
 

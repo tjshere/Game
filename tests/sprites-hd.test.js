@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { SPRITES, PALETTE, spriteSize } from "../js/sprites.js";
+import { SPRITES, PALETTE, spriteSize } from "../js/sprites-hd.js";
 
 const REQUIRED = ["grass","grass2","path","water","tree","rock","stone",
     "playerMelee","playerRanged","playerMagic","mireRat","bogling","ashenWarden",
