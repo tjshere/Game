@@ -1,4 +1,4 @@
-import { MONSTERS, CLASSES, WEAPONS, FOODS, bestWeapon, statLevel, maxHp, INVENTORY_SIZE } from "./entities.js";
+import { MONSTERS, CLASSES, WEAPONS, bestWeapon, statLevel, maxHp } from "./entities.js";
 import { rollHit, xpForDamage, ATTACK_SPEED_TICKS } from "./combat.js";
 import { ensureTargets, resolveKill } from "./loot.js";
 import { findPathAdjacent } from "./pathfinding.js";
@@ -47,12 +47,7 @@ export function attachCombat(game, map, deps) {
         const def = MONSTERS[monster.type];
         const drops = resolveKill(game.state.lootState, monster.type, rng);
         for (const d of drops) {
-            if (d.item === "coins") player.coins += d.qty;
-            else if (FOODS[d.item]) {
-                if (player.inventory.length < INVENTORY_SIZE) player.inventory.push({ item: d.item });
-            } else if (WEAPONS[d.item]) {
-                player.ownedWeapons[WEAPONS[d.item].klass].push(d.item);
-            }
+            game.state.groundItems.push({ ...d, x: monster.x, y: monster.y, tick: game.state.tick });
         }
         deps.onLoot(drops, def.name);
         monster.respawnIn = def.respawnTicks;

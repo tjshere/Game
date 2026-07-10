@@ -1,9 +1,9 @@
 import { drawSprite } from "./sprites.js";
 import { tileSprite } from "./world.js";
-import { MONSTERS, CLASSES } from "./entities.js";
+import { MONSTERS, CLASSES, FOODS, WEAPONS } from "./entities.js";
 
 export const TILE_PX = 32;
-export const PIXEL_SCALE = 4;
+export const PIXEL_SCALE = 2;
 
 const PLAYER_SPRITE = { melee: "playerMelee", ranged: "playerRanged", magic: "playerMagic" };
 
@@ -43,6 +43,19 @@ export function createRenderer(canvas, map) {
                 for (let x = cx; x < cx + viewW && x < map.width; x++) {
                     drawSprite(ctx, tileSprite(map.tiles[y][x], x, y), (x - cx) * TILE_PX, (y - cy) * TILE_PX, PIXEL_SCALE);
                 }
+            }
+            // ground items
+            const groundTiles = new Map();
+            for (const g of state.groundItems || []) {
+                const key = `${g.x},${g.y}`;
+                if (!groundTiles.has(key)) groundTiles.set(key, g);
+            }
+            for (const [, g] of groundTiles) {
+                const px = (g.x - cx) * TILE_PX, py = (g.y - cy) * TILE_PX;
+                let icon = "iconCoins";
+                if (FOODS[g.item]) icon = FOODS[g.item].icon;
+                else if (WEAPONS[g.item]) icon = CLASSES[WEAPONS[g.item].klass].icon;
+                drawSprite(ctx, icon, px, py, PIXEL_SCALE);
             }
             for (const m of state.monsters) {
                 if (m.respawnIn > 0) continue;

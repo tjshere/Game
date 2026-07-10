@@ -25,3 +25,9 @@ body { background: #141a14; color: #e8e4d8; font-family: "Courier New", monospac
 .toast { background: #241f14; border: 2px solid #3a3325; padding: 6px 12px; font-size: 13px; animation: toast-fade 3s forwards; }
 .rarity-gray { color: #9aa0a6; } .rarity-blue { color: #4f9dde; } .rarity-orange { color: #f39c2b; }
 @keyframes toast-fade { 0%,80% { opacity: 1; } 100% { opacity: 0; } }
+/* Right-click context menu */
+.ctx-menu { position: fixed; z-index: 100; background: #1a1510; border: 2px solid #3a3325; min-width: 150px; padding: 2px 0; font-size: 13px; box-shadow: 2px 4px 12px rgba(0,0,0,.6); }
+.ctx-row { padding: 4px 12px; cursor: pointer; white-space: nowrap; }
+.ctx-row:hover { background: #2a2418; }
+.ctx-header { font-weight: bold; cursor: default; padding: 6px 12px 2px; }
+.ctx-header:hover { background: transparent; }

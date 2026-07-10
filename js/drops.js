@@ -6,7 +6,7 @@
 export const DROP_TABLES = {
     mireRat: {
         coins: [1, 8],
-        food: { item: "roastPerch", chance: 1 / 3 },
+        food: { item: "roastPerch", chance: 1 },
         weapons: [
             { item: "soldiersGreatsword", range: [5, 25] },
             { item: "adeptsStaff",        range: [5, 25] },
@@ -14,7 +14,7 @@ export const DROP_TABLES = {
     },
     bogling: {
         coins: [5, 20],
-        food: { item: "emberLoaf", chance: 1 / 3 },
+        food: { item: "emberLoaf", chance: 1 },
         weapons: [
             { item: "huntersBow", range: [5, 25] },
         ],

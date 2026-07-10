@@ -21,6 +21,7 @@ export const WEAPONS = {
 };
 
 export const FOODS = {
+    rawMeat:    { name: "Raw Meat",    heals: 3,  icon: "iconMeat" },
     roastPerch: { name: "Roast Perch", heals: 5,  icon: "iconPerch" },
     emberLoaf:  { name: "Ember Loaf",  heals: 12, icon: "iconLoaf" },
 };
