@@ -1,42 +1,43 @@
 import { MONSTERS, FOODS, WEAPONS } from "./entities.js";
 import { CLASS_STONE } from "./world.js";
 
-export function initContextMenu(canvas, renderer, game) {
-    let menu = null;
+let menu = null;
 
-    function close() {
-        if (menu) { menu.remove(); menu = null; }
-    }
+export function closeMenu() {
+    if (menu) { menu.remove(); menu = null; }
+}
 
-    function show(x, y, entries) {
-        close();
-        menu = document.createElement("div");
-        menu.className = "ctx-menu";
-        menu.style.left = x + "px";
-        menu.style.top = y + "px";
-        for (const entry of entries) {
-            const row = document.createElement("div");
-            row.className = "ctx-row";
-            if (entry.color) row.style.color = entry.color;
-            row.textContent = entry.label;
-            if (entry.action) {
-                row.addEventListener("click", (e) => {
-                    e.stopPropagation();
-                    close();
-                    entry.action();
-                });
-            } else {
-                row.classList.add("ctx-header");
-            }
-            menu.appendChild(row);
+// entries: [{ label, color?, action? }] — a row without an action is a header.
+export function showMenu(x, y, entries) {
+    closeMenu();
+    menu = document.createElement("div");
+    menu.className = "ctx-menu";
+    menu.style.left = x + "px";
+    menu.style.top = y + "px";
+    for (const entry of entries) {
+        const row = document.createElement("div");
+        row.className = "ctx-row";
+        if (entry.color) row.style.color = entry.color;
+        row.textContent = entry.label;
+        if (entry.action) {
+            row.addEventListener("click", (e) => {
+                e.stopPropagation();
+                closeMenu();
+                entry.action();
+            });
+        } else {
+            row.classList.add("ctx-header");
         }
-        document.body.appendChild(menu);
-        // keep menu on screen
-        const rect = menu.getBoundingClientRect();
-        if (rect.right > window.innerWidth) menu.style.left = (x - rect.width) + "px";
-        if (rect.bottom > window.innerHeight) menu.style.top = (y - rect.height) + "px";
+        menu.appendChild(row);
     }
+    document.body.appendChild(menu);
+    // keep menu on screen
+    const rect = menu.getBoundingClientRect();
+    if (rect.right > window.innerWidth) menu.style.left = (x - rect.width) + "px";
+    if (rect.bottom > window.innerHeight) menu.style.top = (y - rect.height) + "px";
+}
 
+export function initContextMenu(canvas, renderer, game) {
     canvas.addEventListener("contextmenu", (e) => {
         e.preventDefault();
         const t = renderer.screenToTile(game.state, e.clientX, e.clientY);
@@ -133,14 +134,14 @@ export function initContextMenu(canvas, renderer, game) {
         }
 
         if (entries.length > 0) {
-            show(e.clientX, e.clientY, entries);
+            showMenu(e.clientX, e.clientY, entries);
         }
     });
 
-    document.addEventListener("click", close);
+    document.addEventListener("click", closeMenu);
     document.addEventListener("contextmenu", (e) => {
-        if (e.target !== canvas) close();
+        if (e.target !== canvas) closeMenu();
     });
 
-    return { close };
+    return { close: closeMenu };
 }

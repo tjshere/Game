@@ -21,9 +21,9 @@ export const WEAPONS = {
 };
 
 export const FOODS = {
-    rawMeat:    { name: "Raw Meat",    heals: 3,  icon: "iconMeat" },
-    roastPerch: { name: "Roast Perch", heals: 5,  icon: "iconPerch" },
-    emberLoaf:  { name: "Ember Loaf",  heals: 12, icon: "iconLoaf" },
+    rawMeat:    { name: "Raw Meat",    heals: 3,  icon: "iconMeat",  examine: "Best cooked. Beggars can't be choosers." },
+    roastPerch: { name: "Roast Perch", heals: 5,  icon: "iconPerch", examine: "A river perch, roasted golden." },
+    emberLoaf:  { name: "Ember Loaf",  heals: 12, icon: "iconLoaf",  examine: "Warm bread with a molten crumb." },
 };
 
 export const MONSTERS = {

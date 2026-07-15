@@ -1,4 +1,6 @@
 import { CLASSES, WEAPONS, FOODS, bestWeapon, statLevel, maxHp } from "./entities.js";
+import { eatAt, dropAt } from "./inventory.js";
+import { showMenu } from "./context-menu.js";
 import { progress } from "./xp.js";
 import { drawSprite } from "./sprites-hd.js";
 
@@ -61,9 +63,18 @@ export function initUi(game, { onReset }) {
                 slot.title = `${food.name} (heals ${food.heals})`;
                 slot.appendChild(iconCanvas(food.icon));
                 slot.addEventListener("click", () => {
-                    p.inventory.splice(i, 1);
-                    p.hp = Math.min(maxHp(p), p.hp + food.heals);
-                    toast(`Ate ${food.name} (+${food.heals} HP)`);
+                    const f = eatAt(p, i);
+                    if (f) toast(`Ate ${f.name} (+${f.heals} HP)`);
+                });
+                slot.addEventListener("contextmenu", (ev) => {
+                    ev.preventDefault();
+                    ev.stopPropagation(); // keep the document-level closer from eating this menu
+                    showMenu(ev.clientX, ev.clientY, [
+                        { label: food.name, color: "#2e8b2e" },
+                        { label: "Eat", action: () => { const f = eatAt(p, i); if (f) toast(`Ate ${f.name} (+${f.heals} HP)`); } },
+                        { label: "Drop", action: () => { const f = dropAt(game.state, i); if (f) toast(`Dropped ${f.name}.`); } },
+                        { label: "Examine", action: () => toast(food.examine) },
+                    ]);
                 });
             }
             inv.appendChild(slot);
