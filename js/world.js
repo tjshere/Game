@@ -63,7 +63,12 @@ export function isBlocked(map, x, y) {
     return "WTRC".includes(map.tiles[y][x]);
 }
 
-export function tileSprite(ch, x, y) {
-    if (ch === "G") return (x * 7 + y * 13) % 5 === 0 ? "grass2" : "grass";
-    return { P: "path", W: "water", T: "tree", R: "rock", C: "stone" }[ch];
+// Sprites to draw for a tile, bottom-up. Objects (tree/rock/stone) have
+// transparent backgrounds, so they sit on a grass base layer.
+export function tileLayers(ch, x, y) {
+    const grass = (x * 7 + y * 13) % 5 === 0 ? "grass2" : "grass";
+    if (ch === "G") return [grass];
+    const solid = { P: "path", W: "water" }[ch];
+    if (solid) return [solid];
+    return [grass, { T: "tree", R: "rock", C: "stone" }[ch]];
 }

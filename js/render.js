@@ -1,5 +1,5 @@
 import { drawSprite } from "./sprites-hd.js";
-import { tileSprite } from "./world.js";
+import { tileLayers } from "./world.js";
 import { MONSTERS, CLASSES, FOODS, WEAPONS } from "./entities.js";
 
 export const TILE_PX = 32;
@@ -41,7 +41,8 @@ export function createRenderer(canvas, map) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let y = cy; y < cy + viewH && y < map.height; y++) {
                 for (let x = cx; x < cx + viewW && x < map.width; x++) {
-                    drawSprite(ctx, tileSprite(map.tiles[y][x], x, y), (x - cx) * TILE_PX, (y - cy) * TILE_PX, PIXEL_SCALE);
+                    for (const layer of tileLayers(map.tiles[y][x], x, y))
+                        drawSprite(ctx, layer, (x - cx) * TILE_PX, (y - cy) * TILE_PX, PIXEL_SCALE);
                 }
             }
             // ground items
