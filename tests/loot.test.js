@@ -35,11 +35,11 @@ test("coins quantity comes from the table range", () => {
     const coins = drops.find((d) => d.item === "coins");
     assert.equal(coins.qty, DROP_TABLES.bogling.coins[1]); // max roll
 });
-test("food always drops (100% chance for all monsters)", () => {
+test("food respects its chance", () => {
     const s = fresh();
     ensureTargets(s, "bogling", () => 0.999999);
-    const drops = resolveKill(s, "bogling", () => 0.999999); // chance is now 1 → always drops
-    assert.ok(drops.find((d) => d.item === "emberLoaf"));
+    const noFood = resolveKill(s, "bogling", () => 0.999999); // 0.99 > 1/3 → no food... but boss food chance is 1
+    assert.ok(!noFood.find((d) => d.item === "emberLoaf"));
     const s2 = fresh();
     ensureTargets(s2, "ashenWarden", () => 0.999999);
     const bossDrops = resolveKill(s2, "ashenWarden", () => 0.999999);

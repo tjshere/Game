@@ -77,15 +77,9 @@ export function initUi(game, { onReset }) {
             const b = document.createElement("button");
             const w = WEAPONS[bestWeapon(player(), name)];
             b.innerHTML = `${name}<br><span class="rarity-${w.rarity}">${w.name}</span>`;
-            const isActive = player().klass === name;
-            b.className = isActive ? "active" : "";
-            if (!isActive) {
-                b.addEventListener("click", () => {
-                    player().klass = name;
-                    toast(`You are now ${name}. Wielding ${WEAPONS[bestWeapon(player(), name)].name}.`);
-                    renderClassPanel();
-                });
-            }
+            b.className = player().klass === name ? "active" : "";
+            b.title = "Switch at the class stone";
+            b.disabled = true;
             panel.appendChild(b);
         }
         const stance = document.createElement("button");
