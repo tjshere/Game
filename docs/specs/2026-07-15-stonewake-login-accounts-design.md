@@ -46,10 +46,13 @@ A Supabase project (name: `stonewake`, free tier) provides:
   contains nothing but usernames). The anon API key shipped in the page is public by
   design; RLS is the security boundary.
 
-The `@supabase/supabase-js` v2 client is vendored as a single ESM file into
-`js/vendor/supabase.js` (no build step, no runtime CDN dependency).
-`js/config.js` exports `SUPABASE_URL` and `SUPABASE_ANON_KEY` (placeholder values
-until the project exists; both are public-safe).
+No Supabase client library: the game talks to Supabase's auth and REST endpoints
+directly with `fetch` (five calls total — signup, login, logout, fetch save, push
+save — plus a username-availability check and save delete). This keeps the repo's
+zero-dependency, no-build-step character and makes the account module fully
+unit-testable with an injected fetch, matching how `save.js` takes an injected
+storage. `js/config.js` exports `SUPABASE_URL` and `SUPABASE_ANON_KEY` (placeholder
+values until the project exists; both are public-safe).
 
 Future-online note: any later game server can verify Supabase-issued JWTs, and
 Supabase Realtime channels attach to these same accounts, so nothing here is throwaway.
@@ -73,9 +76,9 @@ Client-side rules live in a pure module (`js/auth-rules.js`) so they are unit-te
   button next to Reset save.
 - **`js/auth-rules.js`** — pure validation: `validateUsername`, `validatePassword`,
   `usernameToEmail` (lowercase + synthetic domain). Unit-tested.
-- **`js/account.js`** — account operations with the Supabase client injected
+- **`js/account.js`** — account operations with `fetch` injected
   (mirrors how `save.js` takes `storage`): `signUp`, `logIn`, `logOut`,
-  `fetchSave`, `pushSave`. Translates raw Supabase errors into player-facing
+  `fetchSave`, `pushSave`, `deleteSave`. Translates raw Supabase errors into player-facing
   messages ("That username is taken.", "Invalid username or password.",
   "Unable to connect — try again."). Unit-tested against a fake client.
 - **`js/idle.js`** — pure idle tracker: `createIdleTracker(timeoutMs, onIdle)` with
@@ -103,8 +106,8 @@ Client-side rules live in a pure module (`js/auth-rules.js`) so they are unit-te
   50 ticks; failed pushes are silent and retried on the next interval (localStorage
   always has the latest state as backup).
 - **Logout / idle logout / pagehide**: push save, sign out, show login screen
-  (idle path adds the inactivity message). Sessions use in-memory storage only
-  (`persistSession: false`), so a page refresh always lands on the login screen.
+  (idle path adds the inactivity message). Session tokens are held in memory only,
+  so a page refresh always lands on the login screen.
 - **Reset save**: with accounts, "Reset save" wipes the cloud row and localStorage
   copy for the logged-in account (with the existing confirm step) and restarts fresh.
 
