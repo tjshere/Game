@@ -1,4 +1,4 @@
-# Game (working title)
+# Stonewake
 
 A single-player browser game with old-school MMO bones. Plain HTML/CSS/JS,
 Canvas 2D, zero dependencies. Open `index.html` via any static server.
