@@ -70,6 +70,12 @@ export function initUi(game, { onReset }) {
         }
     }
 
+    function switchClass(name) {
+        player().klass = name;
+        toast(`You are now ${name}. Wielding ${WEAPONS[bestWeapon(player(), name)].name}.`);
+        renderClassPanel();
+    }
+
     function renderClassPanel() {
         const panel = el("class-panel");
         panel.innerHTML = "";
@@ -77,9 +83,9 @@ export function initUi(game, { onReset }) {
             const b = document.createElement("button");
             const w = WEAPONS[bestWeapon(player(), name)];
             b.innerHTML = `${name}<br><span class="rarity-${w.rarity}">${w.name}</span>`;
-            b.className = player().klass === name ? "active" : "";
-            b.title = "Switch at the class stone";
-            b.disabled = true;
+            const isActive = player().klass === name;
+            b.className = isActive ? "active" : "";
+            if (!isActive) b.addEventListener("click", () => switchClass(name));
             panel.appendChild(b);
         }
         const stance = document.createElement("button");
@@ -93,11 +99,7 @@ export function initUi(game, { onReset }) {
 
     game.hooks.onReachStone = () => {
         showModal("<h2>Class Stone</h2><p>Choose your discipline. Your best weapon for it is wielded.</p>",
-            Object.keys(CLASSES).map((name) => [name, () => {
-                player().klass = name;
-                toast(`You are now ${name}. Wielding ${WEAPONS[bestWeapon(player(), name)].name}.`);
-                renderClassPanel();
-            }]));
+            Object.keys(CLASSES).map((name) => [name, () => switchClass(name)]));
     };
 
     el("reset-save").addEventListener("click", () => {
