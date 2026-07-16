@@ -7,6 +7,28 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div id="login-screen">
+    <div id="login-logo">STONEWAKE</div>
+    <div id="login-box">
+        <div id="login-tabs">
+            <button id="tab-existing" type="button" class="active">Existing User</button>
+            <button id="tab-new" type="button">New User</button>
+        </div>
+        <form id="login-form">
+            <label>Username
+                <input id="login-username" maxlength="12" autocomplete="username" spellcheck="false">
+            </label>
+            <label>Password
+                <input id="login-password" type="password" autocomplete="current-password">
+            </label>
+            <label id="login-confirm-row" hidden>Confirm password
+                <input id="login-confirm" type="password" autocomplete="new-password">
+            </label>
+            <div id="login-status" role="status"></div>
+            <button id="login-submit" type="submit">Log in</button>
+        </form>
+    </div>
+</div>
 <div id="game">
     <canvas id="canvas" width="800" height="608"></canvas>
     <aside id="hud">
@@ -17,10 +39,11 @@
         <div id="coins-row">Coins: <span id="coins">0</span></div>
         <div id="inventory"></div>
         <button id="reset-save" type="button">Reset save</button>
+        <button id="logout" type="button">Log out</button>
     </aside>
 </div>
 <div id="modal-backdrop" hidden><div id="modal"></div></div>
 <div id="toasts"></div>
-<script type="module" src="js/boot.js"></script>
+<script type="module" src="js/login.js"></script>
 </body>
 </html>

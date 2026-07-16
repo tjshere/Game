@@ -25,6 +25,29 @@ body { background: #141a14; color: #e8e4d8; font-family: "Courier New", monospac
 .toast { background: #241f14; border: 2px solid #3a3325; padding: 6px 12px; font-size: 13px; animation: toast-fade 3s forwards; }
 .rarity-gray { color: #9aa0a6; } .rarity-blue { color: #4f9dde; } .rarity-orange { color: #f39c2b; }
 @keyframes toast-fade { 0%,80% { opacity: 1; } 100% { opacity: 0; } }
+/* Login screen */
+#login-screen { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 28px;
+    background: radial-gradient(ellipse at 50% 30%, #232b1c 0%, #141a14 65%, #0c0f0c 100%); }
+#login-screen[hidden] { display: none; }
+#login-logo { font-size: 56px; font-weight: bold; letter-spacing: 10px; color: #d8b25a;
+    text-shadow: 0 3px 0 #3a3325, 0 0 24px rgba(216, 178, 90, .35); }
+#login-box { width: 320px; background: #241f14; border: 3px solid #3a3325; padding: 16px; }
+#login-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+#login-tabs button { flex: 1; padding: 6px 4px; background: #141a14; color: #e8e4d8;
+    border: 2px solid #3a3325; cursor: pointer; font-family: inherit; }
+#login-tabs button.active { border-color: #d8b25a; color: #d8b25a; }
+#login-form { display: flex; flex-direction: column; gap: 10px; }
+#login-form label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+#login-form label[hidden] { display: none; }
+#login-form input { padding: 6px 8px; background: #141a14; color: #e8e4d8;
+    border: 2px solid #3a3325; font-family: inherit; }
+#login-form input:focus { outline: none; border-color: #d8b25a; }
+#login-status { min-height: 18px; font-size: 13px; color: #d86a5a; }
+#login-submit { padding: 8px; background: #2a2418; color: #d8b25a; border: 2px solid #d8b25a;
+    cursor: pointer; font-family: inherit; font-weight: bold; }
+#logout { background: #241f14; color: #e8e4d8; border: 2px solid #3a3325; padding: 6px;
+    cursor: pointer; font-family: inherit; }
 /* Right-click context menu */
 .ctx-menu { position: fixed; z-index: 100; background: #1a1510; border: 2px solid #3a3325; min-width: 150px; padding: 2px 0; font-size: 13px; box-shadow: 2px 4px 12px rgba(0,0,0,.6); }
 .ctx-row { padding: 4px 12px; cursor: pointer; white-space: nowrap; }
