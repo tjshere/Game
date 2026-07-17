@@ -4,6 +4,8 @@ import { validateUsername, validatePassword } from "./auth-rules.js";
 import { createIdleTracker, IDLE_LOGOUT_MS } from "./idle.js";
 import { startGame, rehydrate } from "./main.js";
 import { serialize, deserialize, load, SAVE_KEY } from "./save.js";
+import { runCommand } from "./commands.js";
+import { toast } from "./ui.js";
 
 const el = (id) => document.getElementById(id);
 const LOGOUT_MESSAGE_KEY = "stonewake-logout-message";
@@ -41,7 +43,7 @@ async function logout(message) {
     location.reload(); // sessions are memory-only: reload lands on the login screen
 }
 
-function enterGame(state) {
+function enterGame(state, profile) {
     game = startGame(state, {
         onCloudPush: (s) => { account.pushSave(toSaveObj(s)); },
         onReset: async () => {
@@ -56,10 +58,38 @@ function enterGame(state) {
     const idle = createIdleTracker(IDLE_LOGOUT_MS, () => logout("You have been logged out due to inactivity."));
     idle.touch(Date.now());
     for (const ev of ["pointerdown", "keydown", "wheel"]) {
-        document.addEventListener(ev, () => idle.touch(Date.now()));
+        document.addEventListener(ev, () => idle.touch(Date.now()), true);
     }
     setInterval(() => idle.tick(Date.now()), 1000);
     window.addEventListener("pagehide", () => { pushCurrentSave(); });
+
+    if (profile?.is_admin) initCommandBar();
+}
+
+function initCommandBar() {
+    const bar = el("command-bar");
+    const input = el("command-input");
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && bar.hidden) {
+            e.preventDefault();
+            bar.hidden = false;
+            input.focus();
+        }
+    });
+    input.addEventListener("keydown", (e) => {
+        e.stopPropagation();
+        if (e.key === "Escape") {
+            input.value = "";
+            bar.hidden = true;
+        } else if (e.key === "Enter") {
+            const result = runCommand(game.state, input.value);
+            toast(result.message);
+            if (result.ok) pushCurrentSave(); // admin effects persist immediately
+            input.value = "";
+            bar.hidden = true;
+        }
+    });
+    input.addEventListener("blur", () => { input.value = ""; bar.hidden = true; });
 }
 
 async function submit() {
@@ -76,17 +106,19 @@ async function submit() {
     try {
         if (mode === "new") {
             await account.signUp(username, password);
+            const profile = await account.fetchProfile();
             // Adopt pre-account progress in this browser, once ever.
             const preAccount = localStorage.getItem(ADOPTED_KEY) ? null : load(localStorage);
             localStorage.setItem(ADOPTED_KEY, "1");
             const state = rehydrate(preAccount);
             await account.pushSave(toSaveObj(state));
-            enterGame(state);
+            enterGame(state, profile);
         } else {
             await account.logIn(username, password);
+            const profile = await account.fetchProfile();
             const saved = await account.fetchSave();
             localStorage.setItem(ADOPTED_KEY, "1");
-            enterGame(rehydrate(saved ? deserialize(JSON.stringify(saved)) : null));
+            enterGame(rehydrate(saved ? deserialize(JSON.stringify(saved)) : null), profile);
         }
     } catch (err) {
         status.textContent = err instanceof AccountError ? err.message : "Something went wrong — try again.";

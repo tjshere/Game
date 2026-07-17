@@ -11,6 +11,7 @@ create table public.profiles (
     username text not null
         check (username ~ '^[A-Za-z0-9_ ]{1,12}$' and username = btrim(username)),
     username_lower text not null unique,
+    is_admin boolean not null default false,
     created_at timestamptz not null default now()
 );
 
@@ -70,3 +71,8 @@ create policy "players update their own save" on public.saves
     for update using (auth.uid() = user_id);
 create policy "players delete their own save" on public.saves
     for delete using (auth.uid() = user_id);
+
+-- Migration for databases created before is_admin existed:
+--   alter table public.profiles add column is_admin boolean not null default false;
+-- Grant admin to one account (dashboard SQL editor only; no client path exists):
+--   update public.profiles set is_admin = true where username_lower = '<name>';

@@ -53,9 +53,10 @@ server-readable truth for real enforcement.
 
 Login → `fetchProfile()` alongside the save fetch → profile stored in
 `login.js` module state → `enterGame` wires the command bar if
-`profile.is_admin`. Commands mutate `game.state.player` directly; the next
-autosave tick (≤6 s) persists locally and the next cloud push (≤30 s) or
-logout persists remotely — same as any other gameplay change. A failed
+`profile.is_admin`. Commands mutate `game.state.player` directly; a successful
+command additionally triggers an immediate cloud push (closing the tab right
+after a command must not lose its effect), and the normal autosave cycle
+covers everything else. A failed
 profile fetch is treated as not-admin (fail closed); the game still starts.
 
 ## Error handling

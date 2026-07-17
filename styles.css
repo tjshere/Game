@@ -25,6 +25,13 @@ body { background: #141a14; color: #e8e4d8; font-family: "Courier New", monospac
 .toast { background: #241f14; border: 2px solid #3a3325; padding: 6px 12px; font-size: 13px; animation: toast-fade 3s forwards; }
 .rarity-gray { color: #9aa0a6; } .rarity-blue { color: #4f9dde; } .rarity-orange { color: #f39c2b; }
 @keyframes toast-fade { 0%,80% { opacity: 1; } 100% { opacity: 0; } }
+/* Admin command bar */
+#command-bar { position: fixed; bottom: 48px; left: 50%; transform: translateX(-50%);
+    width: 420px; max-width: 90vw; background: #1a1510; border: 2px solid #d8b25a;
+    padding: 6px; z-index: 150; }
+#command-bar[hidden] { display: none; }
+#command-bar input { width: 100%; padding: 6px 8px; background: #141a14; color: #d8b25a;
+    border: none; outline: none; font-family: inherit; font-size: 14px; }
 /* Login screen */
 #login-screen { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column;
     align-items: center; justify-content: center; gap: 28px;

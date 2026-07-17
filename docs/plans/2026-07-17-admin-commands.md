@@ -295,7 +295,9 @@ function initCommandBar() {
             input.value = "";
             bar.hidden = true;
         } else if (e.key === "Enter") {
-            toast(runCommand(game.state, input.value).message);
+            const result = runCommand(game.state, input.value);
+            toast(result.message);
+            if (result.ok) pushCurrentSave(); // admin effects persist immediately
             input.value = "";
             bar.hidden = true;
         }
