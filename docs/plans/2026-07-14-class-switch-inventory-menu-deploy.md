@@ -1,6 +1,6 @@
 # Class Switch Anywhere + Inventory Context Menu + Deploy — Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> Execute task-by-task; steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Sidebar class buttons switch class anywhere, inventory items get a right-click Eat/Drop/Examine menu, then the game ships to GitHub Pages with the portfolio easter egg.
 
@@ -13,7 +13,7 @@
 - No frameworks, no dependencies; plain ES modules.
 - Tests are `node --test` with `node:assert/strict` (`npm test`).
 - No Jagex/RuneScape names anywhere.
-- Commits: plain descriptive messages, no AI attribution.
+- Commits: plain descriptive messages; no attribution trailers.
 
 ---
 
