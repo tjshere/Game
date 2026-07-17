@@ -10,11 +10,14 @@ export function createAccount({ url, anonKey, fetchFn }) {
     async function request(path, { method = "GET", body, headers = {}, useSession = true } = {}) {
         let res;
         try {
+            // Authorization only once logged in; anonymous calls authenticate via
+            // the apikey header alone (required by publishable-format keys).
+            const auth = useSession && session ? { Authorization: `Bearer ${session.accessToken}` } : {};
             res = await fetchFn(url + path, {
                 method,
                 headers: {
                     apikey: anonKey,
-                    Authorization: `Bearer ${useSession && session ? session.accessToken : anonKey}`,
+                    ...auth,
                     "Content-Type": "application/json",
                     ...headers,
                 },

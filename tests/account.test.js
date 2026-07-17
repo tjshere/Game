@@ -37,6 +37,8 @@ test("signUp synthesizes the email, sends the username as metadata, and logs in"
     assert.equal(body.email, "old-man-99@stonewake.invalid");
     assert.equal(body.data.username, "Old Man 99");
     assert.equal(signup.opts.headers.apikey, "anon");
+    // anonymous calls must not carry an Authorization header (publishable keys reject it)
+    assert.equal(signup.opts.headers.Authorization, undefined);
 });
 
 test("signUp rejects a taken username via the availability check", async () => {
