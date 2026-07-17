@@ -79,6 +79,17 @@ export function createAccount({ url, anonKey, fetchFn }) {
             session = null;
         },
 
+        // The logged-in user's profile row, or null on any failure (fail closed:
+        // callers treat null as not-admin).
+        async fetchProfile() {
+            try {
+                const r = await request(`/rest/v1/profiles?select=username,is_admin&user_id=eq.${session.userId}`);
+                return r.ok && Array.isArray(r.json) && r.json.length ? r.json[0] : null;
+            } catch {
+                return null;
+            }
+        },
+
         // Resolves to the stored { v, state } object, or null if none exists.
         async fetchSave() {
             const r = await request("/rest/v1/saves?select=data");

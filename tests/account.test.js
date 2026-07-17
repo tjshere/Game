@@ -109,6 +109,27 @@ test("logOut clears the session even if the server call fails", async () => {
     assert.equal(account.session, null);
 });
 
+test("fetchProfile returns the logged-in user's row", async () => {
+    const log = [];
+    const row = { match: "/rest/v1/profiles", reply: () => reply(200, [{ username: "Zezima", is_admin: true }]) };
+    const account = createAccount({ url: URL, anonKey: "anon", fetchFn: fakeFetch([TOKEN_OK, row], log) });
+    await account.logIn("Zezima", "longenough");
+    assert.deepEqual(await account.fetchProfile(), { username: "Zezima", is_admin: true });
+    const call = log.find((c) => c.url.includes("/rest/v1/profiles"));
+    assert.ok(call.url.includes("user_id=eq.u1"));
+    assert.equal(call.opts.headers.Authorization, "Bearer tok-1");
+});
+
+test("fetchProfile fails closed: empty result or network error give null", async () => {
+    const empty = createAccount({ url: URL, anonKey: "anon", fetchFn: fakeFetch([TOKEN_OK, { match: "/rest/v1/profiles", reply: () => reply(200, []) }]) });
+    await empty.logIn("Zezima", "longenough");
+    assert.equal(await empty.fetchProfile(), null);
+
+    const dead = createAccount({ url: URL, anonKey: "anon", fetchFn: async (u) => { if (u.includes("token")) return reply(200, { access_token: "tok-1", user: { id: "u1" } }); throw new TypeError("offline"); } });
+    await dead.logIn("Zezima", "longenough");
+    assert.equal(await dead.fetchProfile(), null);
+});
+
 test("deleteSave targets the logged-in user's row", async () => {
     const log = [];
     const del = { match: "/rest/v1/saves", method: "DELETE", reply: () => reply(204, null) };
